@@ -29,7 +29,7 @@ pub struct FieldInfo {
     pub has_phantom_in_variant: bool,
     pub is_union_field: bool,
     pub is_optional: bool,
-    pub _is_boxed: bool,
+    pub is_boxed: bool,
     pub skip_read: bool,
     pub skip_write: bool,
     pub default_override: Option<Path>,

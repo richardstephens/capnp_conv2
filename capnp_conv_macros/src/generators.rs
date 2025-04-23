@@ -270,8 +270,16 @@ impl FieldInfo {
                 } else {
                     quote!(reader)
                 };
-                self.field_type
-                    .generate_field_reader(reader_name, &capnp_field_name, pre_fetched)
+                if !self.is_boxed {
+                    self.field_type
+                        .generate_field_reader(reader_name, &capnp_field_name, pre_fetched)
+                } else {
+                    let tokens = self.field_type
+                        .generate_field_reader(reader_name, &capnp_field_name, pre_fetched);
+                    quote! {
+                        ::std::boxed::Box::new(#tokens)
+                    }
+                }
             }
         }
     }

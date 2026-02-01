@@ -1,5 +1,5 @@
 [package]
-name = "capnp_conv"
+name = "capnp_conv2"
 description = "Provides capnp write/read traits to convert from structs to readers/builders"
 version.workspace = true
 edition.workspace = true
@@ -8,6 +8,6 @@ repository.workspace = true
 readme.workspace = true
 
 [dependencies]
-capnp_conv_macros.workspace = true
+capnp_conv2_macros.workspace = true
 
 capnp.workspace = true

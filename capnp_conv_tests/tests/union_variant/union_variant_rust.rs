@@ -1,4 +1,4 @@
-use capnp_conv::capnp_conv;
+use capnp_conv2::capnp_conv;
 
 use super::union_variant_capnp::{basic_struct, union_struct, union_struct_pure};
 

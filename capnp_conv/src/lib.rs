@@ -1,5 +1,5 @@
 use capnp::{traits::Owned, Result};
-pub use capnp_conv_macros::capnp_conv;
+pub use capnp_conv2_macros::capnp_conv;
 
 pub trait Writable {
     type OwnedType: Owned;

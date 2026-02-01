@@ -1,6 +1,6 @@
 use std::marker::PhantomData;
 
-use capnp_conv::capnp_conv;
+use capnp_conv2::capnp_conv;
 
 use super::common_capnp::{self, basic_struct, comprehensive_struct, generic_struct};
 

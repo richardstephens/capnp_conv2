@@ -131,7 +131,7 @@ impl EnumInfo {
             quote!(#rust_name::#rust_field_name => #capnp_path::#capnp_field_name)
         });
         quote! {
-          impl ::capnp_conv::RemoteEnum<#capnp_path> for #rust_name {
+          impl ::capnp_conv2::RemoteEnum<#capnp_path> for #rust_name {
             fn to_capnp_enum(&self) -> #capnp_path {
               match self {
                 #(#match_arms,)*
@@ -145,7 +145,7 @@ impl EnumInfo {
         quote! {
           impl ::core::convert::Into<#capnp_path> for #rust_name {
             fn into(self) -> #capnp_path {
-              ::capnp_conv::RemoteEnum::to_capnp_enum(&self)
+              ::capnp_conv2::RemoteEnum::to_capnp_enum(&self)
             }
           }
         }
@@ -462,7 +462,7 @@ impl FieldType {
             FieldType::Text(_) => quote!(builder.#setter(#field.as_str())),
             FieldType::Struct(_) => quote!(#field.write(builder.reborrow().#initializer())),
             FieldType::EnumRemote(_) => {
-                quote!(builder.#setter(::capnp_conv::RemoteEnum::to_capnp_enum(#ref_field)))
+                quote!(builder.#setter(::capnp_conv2::RemoteEnum::to_capnp_enum(#ref_field)))
             }
             FieldType::Enum(_) => quote!(builder.#setter(#deref_field)),
             FieldType::GroupOrUnion(_) => {
@@ -495,7 +495,7 @@ impl FieldType {
             FieldType::Text(_) => quote!(builder.set(idx as u32, item)),
             FieldType::Struct(_) => quote!(item.write(builder.reborrow().get(idx as u32))),
             FieldType::EnumRemote(_) => {
-                quote!(builder.set(idx as u32, ::capnp_conv::RemoteEnum::to_capnp_enum(item)))
+                quote!(builder.set(idx as u32, ::capnp_conv2::RemoteEnum::to_capnp_enum(item)))
             }
             FieldType::Enum(_) => quote!(builder.set(idx as u32, *item)),
             FieldType::List(item_type) => {
@@ -525,9 +525,9 @@ fn generate_writable_impl(
 ) -> TokenStream2 {
     let capnp_generics: Vec<Ident> = generics.iter().map(to_capnp_generic).collect();
     quote! {
-      impl<#(#generics, #capnp_generics),*> ::capnp_conv::Writable for #rust_name<#(#generics),*>
+      impl<#(#generics, #capnp_generics),*> ::capnp_conv2::Writable for #rust_name<#(#generics),*>
       where
-        #(#generics: ::capnp_conv::Writable<OwnedType = #capnp_generics>,)*
+        #(#generics: ::capnp_conv2::Writable<OwnedType = #capnp_generics>,)*
         #(#capnp_generics: ::capnp::traits::Owned,)*
       {
         type OwnedType = #capnp_path::Owned<#(#capnp_generics),*>;
@@ -547,9 +547,9 @@ fn generate_readable_impl(
 ) -> TokenStream2 {
     let capnp_generics: Vec<Ident> = generics.iter().map(to_capnp_generic).collect();
     quote! {
-      impl<#(#generics, #capnp_generics),*> ::capnp_conv::Readable for #rust_name<#(#generics),*>
+      impl<#(#generics, #capnp_generics),*> ::capnp_conv2::Readable for #rust_name<#(#generics),*>
       where
-        #(#generics: ::capnp_conv::Readable<OwnedType = #capnp_generics>,)*
+        #(#generics: ::capnp_conv2::Readable<OwnedType = #capnp_generics>,)*
         #(#capnp_generics: ::capnp::traits::Owned,)*
       {
         type OwnedType = #capnp_path::Owned<#(#capnp_generics),*>;
@@ -574,13 +574,13 @@ fn generate_try_from_impl(
       ::std::convert::TryFrom<#capnp_path::Reader<'a, #(#capnp_generics),*>>
       for #rust_name<#(#generics),*>
       where
-        #(#generics: ::capnp_conv::Readable<OwnedType = #capnp_generics>,)*
+        #(#generics: ::capnp_conv2::Readable<OwnedType = #capnp_generics>,)*
         #(#capnp_generics: ::capnp::traits::Owned,)*
       {
         type Error = ::capnp::Error;
 
         fn try_from(reader: #capnp_path::Reader<'a, #(#capnp_generics),*>) -> ::capnp::Result<Self> {
-          ::capnp_conv::Readable::read(reader)
+          ::capnp_conv2::Readable::read(reader)
         }
       }
     }

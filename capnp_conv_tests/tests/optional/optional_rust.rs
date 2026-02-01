@@ -1,4 +1,4 @@
-use capnp_conv::capnp_conv;
+use capnp_conv2::capnp_conv;
 
 use super::optional_capnp::{basic_struct, test_defaults, test_optional};
 

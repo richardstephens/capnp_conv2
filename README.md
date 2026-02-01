@@ -1,8 +1,9 @@
-# capnp_conv
+# capnp_conv2
 
-The `capnp_conv` macro facilitates conversions between [Cap'n Proto](https://capnproto.org/) structs/unions/unions/groups to their rust counterparts by implementing all the necessary [Capn' Proto Rust](https://github.com/capnproto/capnproto-rust) generated builder/reader calls.
+The `capnp_conv2` macro facilitates conversions between [Cap'n Proto](https://capnproto.org/) structs/unions/unions/groups to their rust counterparts by implementing all the necessary [Capn' Proto Rust](https://github.com/capnproto/capnproto-rust) generated builder/reader calls.
 
-Inspired by the (seemingly abandoned?) [existing PR](https://github.com/capnproto/capnproto-rust/pull/157) by @realcr.
+Inspired by the (seemingly abandoned?) [existing PR](https://github.com/capnproto/capnproto-rust/pull/157) by @realcr,
+forked by @richardstephens from the original [capnp_conv](https://github.com/aikalant/capnp_conv) by @aikalant.
 
 ## Usage
 The following capnp schema file directly translates to the below rust file:

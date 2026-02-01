@@ -5,7 +5,7 @@ mod union_variant;
 use std::fmt::Debug;
 
 use capnp::{message::TypedBuilder, traits::Owned};
-use capnp_conv::{Readable, Writable};
+use capnp_conv2::{Readable, Writable};
 
 fn assert_identical<T, CapT>(input: &T)
 where

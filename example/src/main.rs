@@ -6,7 +6,7 @@ pub mod example_capnp {
 use std::vec;
 
 use capnp::message::TypedBuilder;
-use capnp_conv::{Readable, Writable};
+use capnp_conv2::{Readable, Writable};
 use example_capnp as capnp_types;
 
 #[allow(clippy::print_stdout)]

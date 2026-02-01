@@ -1,4 +1,4 @@
-use capnp_conv::capnp_conv;
+use capnp_conv2::capnp_conv;
 
 use crate::example_capnp as capnp_types;
 

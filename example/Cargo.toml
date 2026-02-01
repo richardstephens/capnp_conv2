@@ -8,7 +8,7 @@ repository.workspace = true
 publish = false
 
 [dependencies]
-capnp_conv.workspace = true
+capnp_conv2.workspace = true
 capnp.workspace = true
 
 [build-dependencies]

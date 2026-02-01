@@ -1,5 +1,5 @@
 [package]
-name = "capnp_conv_macros"
+name = "capnp_conv2_macros"
 description = "Provides attribute macros that implement capnp read/write traits"
 version.workspace = true
 edition.workspace = true

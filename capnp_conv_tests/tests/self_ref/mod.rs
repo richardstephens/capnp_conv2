@@ -6,6 +6,7 @@ mod self_ref_rust;
 use self_ref_rust::{BoxedField, Inner, RecursiveList};
 
 use crate::assert_identical;
+use crate::self_ref::self_ref_rust::{LeafNode, LeafNodeParent};
 
 #[test]
 pub fn keyword_rename_and_box_field() {
@@ -32,6 +33,21 @@ pub fn recursive_list() {
                 }],
             },
         ],
+    };
+    assert_identical(&input);
+}
+
+#[test]
+pub fn basic_tree() {
+    let input = LeafNode {
+        parent: LeafNodeParent::Parent(Box::new(LeafNode {
+            parent: LeafNodeParent::Parent(Box::new(LeafNode {
+                parent: LeafNodeParent::Root(()),
+                description: "grandparent".to_owned(),
+            })),
+            description: "parent".to_owned(),
+        })),
+        description: "child".to_owned(),
     };
     assert_identical(&input);
 }

@@ -21,3 +21,18 @@ pub struct RecursiveList {
     pub value: i32,
     pub children: Vec<RecursiveList>,
 }
+
+#[capnp_conv(capnp_types::leaf_node)]
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct LeafNode {
+    #[capnp_conv(type = "unnamed_union")]
+    pub parent: LeafNodeParent,
+    pub description: String,
+}
+
+#[capnp_conv(capnp_types::leaf_node)]
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum LeafNodeParent {
+    Root(()),
+    Parent(Box<LeafNode>),
+}

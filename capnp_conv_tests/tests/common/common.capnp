@@ -79,3 +79,7 @@ struct ComprehensiveStruct(T,Y) {
   genericVal @44 :GenericStruct(BasicStruct,BasicStruct);
   nestedStructVal @45 :NestedStruct;
 }
+
+struct ReservedWordStruct {
+  type @0 :Text;
+}

@@ -6,8 +6,9 @@ use std::{
 use proc_macro2::{Ident, TokenStream};
 use quote::ToTokens;
 use syn::{
-    spanned::Spanned, Attribute, Data, DataEnum, DataStruct, DeriveInput, Field, Fields,
-    GenericArgument, GenericParam, Generics, LitStr, Path, PathArguments, Result, Type, Variant,
+    ext::IdentExt, spanned::Spanned, Attribute, Data, DataEnum, DataStruct, DeriveInput, Field,
+    Fields, GenericArgument, GenericParam, Generics, LitStr, Path, PathArguments, Result, Type,
+    Variant,
 };
 
 use crate::{
@@ -373,7 +374,8 @@ impl FieldAttributesInfo {
 
             attr.parse_nested_meta(|meta| {
                 let attr = if meta.path.is_ident("name") {
-                    let name = meta.value()?.parse::<LitStr>()?.parse::<Ident>()?;
+                    let lit_str = meta.value()?.parse::<LitStr>()?;
+                    let name = lit_str.parse_with(Ident::parse_any)?;
 
                     attr_info.name_override = Some(name.clone());
                     FieldAttribute::Name(meta.path.clone())

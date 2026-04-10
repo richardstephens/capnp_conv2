@@ -9,15 +9,15 @@ members = ["capnp_conv",
 
 [workspace.package]
 authors = ["Richard Stephens <richard@richst.dev>", "Aik Kalantarian <aik.kalantarian@gmail.com>"]
-version = "0.5.0-dev"
+version = "0.5.0-pre.1"
 edition = "2021"
 license = "MIT"
 repository = "https://github.com/richardstephens/capnp_conv2"
 readme = "README.md"
 
 [workspace.dependencies]
-capnp_conv2 = { path = "capnp_conv", version = "0.5.0-dev" }
-capnp_conv2_macros = { path = "capnp_conv_macros", version = "0.5.0-dev" }
+capnp_conv2 = { path = "capnp_conv", version = "0.5.0-pre.1" }
+capnp_conv2_macros = { path = "capnp_conv_macros", version = "0.5.0-pre.1" }
 
 capnp = "0.25"
 capnpc = "0.25"

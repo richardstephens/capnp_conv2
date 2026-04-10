@@ -1,0 +1,13 @@
+[package]
+name = "capnp_conv2_codegen_req"
+description = "Friendly Rust types for working with Cap'n Proto CodeGeneratorRequest schema data"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+capnp.workspace = true
+capnp_conv2.workspace = true
+serde = { version = "1", features = ["derive"] }
+

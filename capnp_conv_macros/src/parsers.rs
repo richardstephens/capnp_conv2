@@ -144,10 +144,6 @@ impl FieldInfo {
             _ => {}
         }
 
-        if is_boxed {
-            todo!("`Box<T>`")
-        }
-
         Ok(FieldInfo {
             rust_name: field.ident.as_ref().unwrap().clone(),
             field_type,
@@ -155,7 +151,7 @@ impl FieldInfo {
             has_phantom_in_variant: false,
             is_union_field,
             is_optional,
-            _is_boxed: is_boxed,
+            is_boxed,
             skip_read,
             skip_write,
             default_override: attr_info.default,
@@ -215,10 +211,6 @@ impl FieldInfo {
 
         let is_boxed = matches!(field_wrapper, FieldWrapper::Box(_));
 
-        if is_boxed {
-            todo!("`Box<T>`")
-        }
-
         Ok(FieldInfo {
             rust_name: variant.ident.clone(),
             field_type,
@@ -226,7 +218,7 @@ impl FieldInfo {
             has_phantom_in_variant: is_phantom,
             is_union_field: false,
             is_optional: false,
-            _is_boxed: is_boxed,
+            is_boxed,
             skip_read: false,
             skip_write: false,
             default_override: None,

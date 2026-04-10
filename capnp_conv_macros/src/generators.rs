@@ -235,7 +235,7 @@ impl EnumInfo {
 
 impl FieldInfo {
     fn generate_field_reader(&self, pre_fetched: bool) -> TokenStream2 {
-        if matches!(self.field_type, FieldType::Phantom) {
+        let inner = if matches!(self.field_type, FieldType::Phantom) {
             quote!(::std::marker::PhantomData)
         } else if self.skip_read {
             let field_reader = match &self.default_override {
@@ -273,6 +273,11 @@ impl FieldInfo {
                 self.field_type
                     .generate_field_reader(reader_name, &capnp_field_name, pre_fetched)
             }
+        };
+        if self.is_boxed {
+            quote!(Box::new(#inner))
+        } else {
+            inner
         }
     }
 

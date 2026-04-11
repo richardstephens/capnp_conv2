@@ -11,7 +11,7 @@ use syn::{
 };
 
 use crate::{
-    models::{EnumInfo, FieldInfo, FieldType, FieldWrapper, ItemInfo, StructInfo},
+    models::{BoxKind, EnumInfo, FieldInfo, FieldType, FieldWrapper, ItemInfo, StructInfo},
     utils::{as_turbofish, error, is_capnp_attr, try_peel_type},
 };
 
@@ -112,17 +112,21 @@ impl FieldInfo {
             }
         }
 
-        let (is_union_field, is_optional, is_boxed) = match field_wrapper {
+        let (is_union_field, is_optional, box_kind) = match field_wrapper {
             FieldWrapper::Box(box_ident) if attr_info.union_field => {
                 return error(box_ident.span(), "`Box<T>` types cannot be `union_field`s")
+            }
+            FieldWrapper::Arc(arc_ident) if attr_info.union_field => {
+                return error(arc_ident.span(), "`Arc<T>` types cannot be `union_field`s")
             }
             FieldWrapper::None if attr_info.union_field => {
                 return error(field.ty.span(), "`union_field`s must be `Option<T>`")
             }
-            FieldWrapper::Option(_) if attr_info.union_field => (true, false, false),
-            FieldWrapper::Option(_) => (false, true, false),
-            FieldWrapper::Box(_) => (false, false, true),
-            FieldWrapper::None => (false, false, false),
+            FieldWrapper::Option(_) if attr_info.union_field => (true, false, None),
+            FieldWrapper::Option(_) => (false, true, None),
+            FieldWrapper::Box(_) => (false, false, Some(BoxKind::Box)),
+            FieldWrapper::Arc(_) => (false, false, Some(BoxKind::Arc)),
+            FieldWrapper::None => (false, false, None),
         };
 
         let (skip_read, skip_write) = if attr_info.skip {
@@ -151,7 +155,7 @@ impl FieldInfo {
             has_phantom_in_variant: false,
             is_union_field,
             is_optional,
-            is_boxed,
+            box_kind,
             skip_read,
             skip_write,
             default_override: attr_info.default,
@@ -209,7 +213,11 @@ impl FieldInfo {
             );
         }
 
-        let is_boxed = matches!(field_wrapper, FieldWrapper::Box(_));
+        let box_kind = match field_wrapper {
+            FieldWrapper::Box(_) => Some(BoxKind::Box),
+            FieldWrapper::Arc(_) => Some(BoxKind::Arc),
+            _ => None,
+        };
 
         Ok(FieldInfo {
             rust_name: variant.ident.clone(),
@@ -218,7 +226,7 @@ impl FieldInfo {
             has_phantom_in_variant: is_phantom,
             is_union_field: false,
             is_optional: false,
-            is_boxed,
+            box_kind,
             skip_read: false,
             skip_write: false,
             default_override: None,
@@ -239,6 +247,10 @@ impl FieldType {
                     FieldType::parse_type(sub_type, specifier)?,
                     FieldWrapper::Box(ident.clone()),
                 )),
+                "Arc" => Ok((
+                    FieldType::parse_type(sub_type, specifier)?,
+                    FieldWrapper::Arc(ident.clone()),
+                )),
                 _ => Ok((FieldType::parse_type(ty, specifier)?, FieldWrapper::None)),
             },
             None => Ok((FieldType::parse_type(ty, specifier)?, FieldWrapper::None)),
@@ -252,7 +264,10 @@ impl FieldType {
                 let last_segment = path.segments.last().unwrap();
                 let ident = &last_segment.ident;
 
-                if matches!(ident.to_string().as_str(), "Option" | "Box" | "PhantomData") {
+                if matches!(
+                    ident.to_string().as_str(),
+                    "Option" | "Box" | "Arc" | "PhantomData"
+                ) {
                     // These are taken care of in before this
                     error(ident.span(), "invalid generic argument type")
                 } else if is_capnp_primative(path) {

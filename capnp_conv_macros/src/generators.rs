@@ -4,7 +4,7 @@ use quote::{format_ident, quote, ToTokens};
 use syn::{Ident, Path};
 
 use crate::{
-    models::{EnumInfo, FieldInfo, FieldType, ItemInfo, StructInfo},
+    models::{BoxKind, EnumInfo, FieldInfo, FieldType, ItemInfo, StructInfo},
     utils::{as_turbofish, capitalize_first_letter, is_ptr_type, to_capnp_generic, to_ident},
 };
 
@@ -274,10 +274,10 @@ impl FieldInfo {
                     .generate_field_reader(reader_name, &capnp_field_name, pre_fetched)
             }
         };
-        if self.is_boxed {
-            quote!(Box::new(#inner))
-        } else {
-            inner
+        match self.box_kind {
+            Some(BoxKind::Box) => quote!(::std::boxed::Box::new(#inner)),
+            Some(BoxKind::Arc) => quote!(::std::sync::Arc::new(#inner)),
+            None => inner,
         }
     }
 

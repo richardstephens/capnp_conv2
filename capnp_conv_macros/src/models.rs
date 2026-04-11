@@ -29,7 +29,7 @@ pub struct FieldInfo {
     pub has_phantom_in_variant: bool,
     pub is_union_field: bool,
     pub is_optional: bool,
-    pub _is_boxed: bool,
+    pub box_kind: Option<BoxKind>,
     pub skip_read: bool,
     pub skip_write: bool,
     pub default_override: Option<Path>,
@@ -73,5 +73,12 @@ pub enum FieldType {
 pub enum FieldWrapper {
     None,
     Box(Ident),
+    Arc(Ident),
     Option(Ident),
+}
+
+#[derive(Debug, Clone, Copy)]
+pub enum BoxKind {
+    Box,
+    Arc,
 }

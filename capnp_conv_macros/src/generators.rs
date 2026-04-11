@@ -4,7 +4,7 @@ use quote::{format_ident, quote, ToTokens};
 use syn::{Ident, Path};
 
 use crate::{
-    models::{EnumInfo, FieldInfo, FieldType, ItemInfo, StructInfo},
+    models::{BoxKind, EnumInfo, FieldInfo, FieldType, ItemInfo, StructInfo},
     utils::{as_turbofish, capitalize_first_letter, is_ptr_type, to_capnp_generic, to_ident},
 };
 
@@ -235,7 +235,7 @@ impl EnumInfo {
 
 impl FieldInfo {
     fn generate_field_reader(&self, pre_fetched: bool) -> TokenStream2 {
-        if matches!(self.field_type, FieldType::Phantom) {
+        let inner = if matches!(self.field_type, FieldType::Phantom) {
             quote!(::std::marker::PhantomData)
         } else if self.skip_read {
             let field_reader = match &self.default_override {
@@ -273,6 +273,11 @@ impl FieldInfo {
                 self.field_type
                     .generate_field_reader(reader_name, &capnp_field_name, pre_fetched)
             }
+        };
+        match self.box_kind {
+            Some(BoxKind::Box) => quote!(::std::boxed::Box::new(#inner)),
+            Some(BoxKind::Arc) => quote!(::std::sync::Arc::new(#inner)),
+            None => inner,
         }
     }
 

@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.5
+
+### 0.5.0-dev
+
+- Add a `capnp_conv2_codegen_req` crate for working with`CodeGeneratorRequest` messages.
+- Add support self-referential types, by supporting `Box<T>` and `Arc<T>` fields and
+  enum variants.
+- Fix `#[capnp_conv(name = "...")]` so that it works with capnp fields with a name that
+  conflicts with a rust reserved word
+- Bump capnp and capnpc to 0.27, which required adding a `'static` bound on generated
+  `Readable`, `Writable`, and `TryFrom` impls.
+
 ## 0.4
 
 ### 0.4.0

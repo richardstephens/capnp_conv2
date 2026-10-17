@@ -5,6 +5,9 @@ The `capnp_conv2` macro facilitates conversions between [Cap'n Proto](https://ca
 Inspired by the (seemingly abandoned?) [existing PR](https://github.com/capnproto/capnproto-rust/pull/157) by @realcr,
 forked by @richardstephens from the original [capnp_conv](https://github.com/aikalant/capnp_conv) by @aikalant.
 
+This fork also adds a [capnp_conv_codegen_req](capnp_conv_codegen_req/) crate defining rust
+types representing capnp's `CodeGeneratorRequest`.
+
 ## Usage
 The following capnp schema file directly translates to the below rust file:
 
@@ -44,7 +47,8 @@ pub struct RustStruct {
 }
 ```
 
-The `capnp_conv` proc macro implements the `capnp_conv::Readable`, `capnp_conv::Writable`, and `TryFrom<Reader>` traits, which handle all of the reading/writing:
+The `capnp_conv` proc macro implements the `capnp_conv2::Readable`, `capnp_conv2::Writable`,
+and `TryFrom<Reader>` traits, which handle all of the reading/writing:
 
 ```rust
 fn read(reader: capnp_struct::Reader) -> Result<RustStruct, capnp::Error> {

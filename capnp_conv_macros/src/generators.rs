@@ -1,7 +1,7 @@
 use heck::{ToSnakeCase, ToUpperCamelCase};
 use proc_macro2::TokenStream as TokenStream2;
 use quote::{format_ident, quote, ToTokens};
-use syn::{Ident, Path};
+use syn::{ext::IdentExt, Ident, Path};
 
 use crate::{
     models::{BoxKind, EnumInfo, FieldInfo, FieldType, ItemInfo, StructInfo},
@@ -351,6 +351,7 @@ impl FieldInfo {
             self.capnp_name_override
                 .as_ref()
                 .unwrap_or(&self.rust_name)
+                .unraw()
                 .to_string()
                 .as_str(),
         )

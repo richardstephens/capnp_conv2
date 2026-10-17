@@ -1,7 +1,6 @@
 [package]
 name = "capnp_conv2_codegen_req"
-description = "Friendly Rust types for working with Cap'n Proto CodeGeneratorRequest schema data.
-Includes doc comments from upstreamw's schema.capnp."
+description = "Friendly Rust types for working with Cap'n Proto CodeGeneratorRequest schema data. Includes doc comments from upstreamw's schema.capnp."
 version.workspace = true
 edition.workspace = true
 license.workspace = true

@@ -2,6 +2,10 @@
 
 ## 0.5
 
+### 0.5.1
+
+- Fix dependency versions in released 
+
 ### 0.5.0
 
 - Add a `capnp_conv2_codegen_req` crate for working with `CodeGeneratorRequest` messages.

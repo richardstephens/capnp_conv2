@@ -20,3 +20,21 @@ struct LeafNode {
   }
   description @2 :Text;
 }
+
+enum Kind {
+  a @0;
+  b @1;
+}
+
+struct BoxedScalars {
+  i32Val    @0 :Int32;
+  textVal   @1 :Text;
+  dataVal   @2 :Data;
+  enumVal   @3 :Kind;
+  remoteVal @4 :Kind;
+  listVal   @5 :List(Int32);
+  union {
+    unionI32  @6 :Int32;
+    unionText @7 :Text;
+  }
+}

@@ -5,7 +5,7 @@ mod self_ref_rust;
 
 use std::sync::Arc;
 
-use self_ref_rust::{BoxedField, Inner, RecursiveList};
+use self_ref_rust::{BoxedField, BoxedScalars, BoxedScalarsUnion, Inner, Kind, RecursiveList};
 
 use crate::{
     assert_identical,
@@ -68,5 +68,21 @@ pub fn arc_tree() {
         })),
         description: "child".to_owned(),
     };
+    assert_identical(&input);
+}
+
+#[test]
+pub fn boxed_scalars() {
+    let mut input = BoxedScalars {
+        i32_val: Box::new(5),
+        text_val: Arc::new("text".to_owned()),
+        data_val: Box::new(vec![1, 2, 3]),
+        enum_val: Box::new(self_ref_capnp::Kind::B),
+        remote_val: Arc::new(Kind::B),
+        list_val: Box::new(vec![4, 5, 6]),
+        scalar_union: BoxedScalarsUnion::UnionI32(Box::new(7)),
+    };
+    assert_identical(&input);
+    input.scalar_union = BoxedScalarsUnion::UnionText(Arc::new("union".to_owned()));
     assert_identical(&input);
 }

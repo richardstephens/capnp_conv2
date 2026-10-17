@@ -139,3 +139,16 @@ pub struct ReservedWordStruct {
     #[capnp_conv(name = "type")]
     pub type_: String,
 }
+
+#[capnp_conv(reserved_word_struct)]
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct RawIdentStruct {
+    pub r#type: String,
+}
+
+#[capnp_conv(reserved_word_struct)]
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct RawIdentRenameStruct {
+    #[capnp_conv(name = "r#type")]
+    pub type_: String,
+}

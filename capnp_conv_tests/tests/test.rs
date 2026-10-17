@@ -2,6 +2,7 @@ mod common;
 mod optional;
 mod self_ref;
 mod union_variant;
+mod unit_variant;
 
 use std::fmt::Debug;
 
@@ -28,4 +29,17 @@ where
     let output = Y::read(builder.get_root_as_reader().unwrap()).unwrap();
 
     assert_eq!(output, *expected_output);
+}
+
+fn assert_decodes_as<T, Y, Cap>(input: &T, equivalent_output: &Y)
+where
+    T: PartialEq + Debug + Writable<OwnedType = Cap> + Readable<OwnedType = Cap>,
+    Y: PartialEq + Debug + Writable<OwnedType = Cap> + Readable<OwnedType = Cap>,
+    Cap: Owned,
+{
+    let mut builder = TypedBuilder::<Cap>::new_default();
+    input.write(builder.init_root());
+
+    let output = Y::read(builder.get_root_as_reader().unwrap()).unwrap();
+    assert_match(equivalent_output, &output);
 }

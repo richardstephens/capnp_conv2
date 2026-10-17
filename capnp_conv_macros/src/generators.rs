@@ -176,13 +176,15 @@ impl EnumInfo {
             .map(|field| {
                 let rust_variant_name = &field.rust_name;
                 let field_writer = field.generate_field_writer_from_reference();
-                let tuple_fields = if field.has_phantom_in_variant {
-                    quote!(val, _)
+                let pattern = if field.is_unit_variant {
+                    quote!(Self::#rust_variant_name)
+                } else if field.has_phantom_in_variant {
+                    quote!(Self::#rust_variant_name(val, _))
                 } else {
-                    quote!(val)
+                    quote!(Self::#rust_variant_name(val))
                 };
 
-                quote!(Self::#rust_variant_name(#tuple_fields) => #field_writer)
+                quote!(#pattern => #field_writer)
             })
             .collect();
 
@@ -196,29 +198,31 @@ impl EnumInfo {
     }
     fn generate_reader_impl(&self, capnp_path: &Path) -> TokenStream2 {
         let match_arm_readers: Vec<TokenStream2> = self
-      .fields
-      .iter()
-      .map(|field| {
-        let rust_variant_name = &field.rust_name;
-        let capnp_field_name = field.get_capnp_name(ToSnakeCase::to_snake_case);
-        let capnp_variant_name = to_ident(capnp_field_name.to_upper_camel_case());
-        let field_reader = field.generate_field_reader(true);
-        let variant_fields = if field.has_phantom_in_variant {
-          quote!(#field_reader, ::std::marker::PhantomData)
-        } else {
-          field_reader
-        };
+            .fields
+            .iter()
+            .map(|field| {
+                let rust_variant_name = &field.rust_name;
+                let capnp_field_name = field.get_capnp_name(ToSnakeCase::to_snake_case);
+                let capnp_variant_name = to_ident(capnp_field_name.to_upper_camel_case());
+                let field_reader = field.generate_field_reader(true);
+                let variant = if field.is_unit_variant {
+                    quote!(Self::#rust_variant_name)
+                } else if field.has_phantom_in_variant {
+                    quote!(Self::#rust_variant_name(#field_reader, ::std::marker::PhantomData))
+                } else {
+                    quote!(Self::#rust_variant_name(#field_reader))
+                };
 
-        quote! {
-          #capnp_path::Which::#capnp_variant_name(val) => Self::#rust_variant_name(#variant_fields)
-        }
-      })
-      .collect();
+                quote! {
+                    #capnp_path::Which::#capnp_variant_name(val) => #variant
+                }
+            })
+            .collect();
 
         let reader_body = quote! {
-          Ok(match reader.which()? {
-            #(#match_arm_readers,)*
-          })
+            Ok(match reader.which()? {
+                #(#match_arm_readers,)*
+            })
         };
 
         generate_readable_impl(&self.ident, capnp_path, &self.generics, reader_body)

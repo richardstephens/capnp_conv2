@@ -27,6 +27,7 @@ pub struct FieldInfo {
     pub field_type: FieldType,
     pub capnp_name_override: Option<Ident>,
     pub has_phantom_in_variant: bool,
+    pub is_unit_variant: bool,
     pub is_union_field: bool,
     pub is_optional: bool,
     pub box_kind: Option<BoxKind>,

@@ -10,7 +10,8 @@
 - Fix `#[capnp_conv(name = "...")]` so that it works with capnp fields with a name that
   conflicts with a rust reserved word
 - Bump capnp and capnpc to 0.27, which required adding a `'static` bound on generated
-  `Readable`, `Writable`, and `TryFrom` impls.
+  `Readable`, `Writable`, and `TryFrom` impls
+- Support omitting unit type (`Val1` instead of `Val1(())`) to represent `Void` union members in enums
 
 ## 0.4
 

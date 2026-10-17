@@ -1,7 +1,8 @@
-use crate::codegen_request::node::types::Type;
 use capnp::schema_capnp;
 use capnp_conv2::capnp_conv;
 use serde::{Deserialize, Serialize};
+
+use crate::codegen_request::node::types::Type;
 
 /// Specifies bindings for parameters of generics. Since these bindings turn a generic into a
 /// non-generic, we call it the "brand".

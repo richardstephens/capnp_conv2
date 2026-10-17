@@ -1,10 +1,10 @@
-use crate::codegen_request::misc::CapnpVersion;
-use crate::codegen_request::node::Node;
-use crate::codegen_request::requested_file::RequestedFile;
-use crate::codegen_request::source_info::SourceInfo;
 use capnp::schema_capnp;
 use capnp_conv2::capnp_conv;
 use serde::{Deserialize, Serialize};
+
+use crate::codegen_request::{
+    misc::CapnpVersion, node::Node, requested_file::RequestedFile, source_info::SourceInfo,
+};
 
 pub mod misc;
 pub mod node;

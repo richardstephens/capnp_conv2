@@ -1,7 +1,8 @@
-use crate::codegen_request::node::types::Type;
 use capnp::schema_capnp;
 use capnp_conv2::capnp_conv;
 use serde::{Deserialize, Serialize};
+
+use crate::codegen_request::node::types::Type;
 
 #[capnp_conv(schema_capnp::node::annotation)]
 #[derive(Debug, Clone, Serialize, Deserialize)]

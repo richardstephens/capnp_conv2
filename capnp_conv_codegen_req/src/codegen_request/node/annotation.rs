@@ -1,8 +1,8 @@
-use crate::codegen_request::node::brand::Brand;
-use crate::codegen_request::node::value::Value;
 use capnp::schema_capnp;
 use capnp_conv2::capnp_conv;
 use serde::{Deserialize, Serialize};
+
+use crate::codegen_request::node::{brand::Brand, value::Value};
 
 /// Describes an annotation applied to a declaration. Note `AnnotationNode` describes the
 /// annotation's declaration, while this describes a use of the annotation.

@@ -1,9 +1,8 @@
-use crate::codegen_request::node::annotation::Annotation;
-use crate::codegen_request::node::types::Type;
-use crate::codegen_request::node::value::Value;
 use capnp::schema_capnp;
 use capnp_conv2::capnp_conv;
 use serde::{Deserialize, Serialize};
+
+use crate::codegen_request::node::{annotation::Annotation, types::Type, value::Value};
 
 /// Schema for a field of a struct.
 #[capnp_conv(schema_capnp::field)]

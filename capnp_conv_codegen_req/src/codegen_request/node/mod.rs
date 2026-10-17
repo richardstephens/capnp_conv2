@@ -9,15 +9,18 @@ pub mod struct_node;
 pub mod types;
 pub mod value;
 
-use crate::codegen_request::node::annotation::Annotation;
-use crate::codegen_request::node::annotation_node::AnnotationNode;
-use crate::codegen_request::node::const_node::ConstNode;
-use crate::codegen_request::node::enum_node::EnumNode;
-use crate::codegen_request::node::interface::{InterfaceNode, Parameter};
-use crate::codegen_request::node::struct_node::StructNode;
 use capnp::schema_capnp;
 use capnp_conv2::capnp_conv;
 use serde::{Deserialize, Serialize};
+
+use crate::codegen_request::node::{
+    annotation::Annotation,
+    annotation_node::AnnotationNode,
+    const_node::ConstNode,
+    enum_node::EnumNode,
+    interface::{InterfaceNode, Parameter},
+    struct_node::StructNode,
+};
 
 #[capnp_conv(schema_capnp::node)]
 #[derive(Debug, Clone, Serialize, Deserialize)]

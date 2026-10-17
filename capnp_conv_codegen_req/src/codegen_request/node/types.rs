@@ -1,7 +1,8 @@
-use crate::codegen_request::node::brand::Brand;
 use capnp::schema_capnp;
 use capnp_conv2::capnp_conv;
 use serde::{Deserialize, Serialize};
+
+use crate::codegen_request::node::brand::Brand;
 
 /// Represents a type expression.
 #[capnp_conv(schema_capnp::type_)]

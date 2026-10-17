@@ -238,6 +238,35 @@ pub struct RustStruct {
 }
 ```
 
+### Boxed fields
+Wrapping a field or enum variant in `Box<T>` or `Arc<T>` boxes the value.
+This allows self-referential types.
+
+```capnp
+struct Node {
+  union {
+    root   @0 :Void;
+    parent @1 :Node;
+  }
+  children @2 :List(Node);
+}
+```
+```rust
+#[capnp_conv(node)]
+pub struct Node {
+  #[capnp_conv(type = "unnamed_union")]
+  parent: NodeParent,
+  children: Vec<Node>,
+}
+#[capnp_conv(node)]
+pub enum NodeParent {
+  Root(()),
+  Parent(Box<Node>),
+}
+```
+
+- Boxed fields cannot be `union_variant`s.
+
 ### Skipped fields
 - Adding `#[capnp_conv(skip_write)]` to a field's attributes will result in the field not being written. Similar to as if it were optional with `None`.
 
@@ -339,6 +368,5 @@ Short term:
 - Confirm if as_turbofish() function is sufficient for all possible cases (specifically, nested generic types? `Type1<Type2<T>>`)
 
 Long term:
-- Allow boxed fields for the rare case of a struct/enum containing a field of its own type (with different generics).
 - Allow structs to contain lifetimes and generic constraints that carry over to the generated impls.
 - Add a convenience `clear_enum_fields` function to struct represented capnp unions that sets all union fields to `None`.

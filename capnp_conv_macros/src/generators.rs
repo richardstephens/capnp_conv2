@@ -533,7 +533,7 @@ fn generate_writable_impl(
       impl<#(#generics, #capnp_generics),*> ::capnp_conv2::Writable for #rust_name<#(#generics),*>
       where
         #(#generics: ::capnp_conv2::Writable<OwnedType = #capnp_generics>,)*
-        #(#capnp_generics: ::capnp::traits::Owned,)*
+        #(#capnp_generics: ::capnp::traits::Owned + 'static,)*
       {
         type OwnedType = #capnp_path::Owned<#(#capnp_generics),*>;
 
@@ -555,7 +555,7 @@ fn generate_readable_impl(
       impl<#(#generics, #capnp_generics),*> ::capnp_conv2::Readable for #rust_name<#(#generics),*>
       where
         #(#generics: ::capnp_conv2::Readable<OwnedType = #capnp_generics>,)*
-        #(#capnp_generics: ::capnp::traits::Owned,)*
+        #(#capnp_generics: ::capnp::traits::Owned + 'static,)*
       {
         type OwnedType = #capnp_path::Owned<#(#capnp_generics),*>;
 
@@ -580,7 +580,7 @@ fn generate_try_from_impl(
       for #rust_name<#(#generics),*>
       where
         #(#generics: ::capnp_conv2::Readable<OwnedType = #capnp_generics>,)*
-        #(#capnp_generics: ::capnp::traits::Owned,)*
+        #(#capnp_generics: ::capnp::traits::Owned + 'static,)*
       {
         type Error = ::capnp::Error;
 

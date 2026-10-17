@@ -9,5 +9,5 @@ repository.workspace = true
 [dependencies]
 capnp.workspace = true
 capnp_conv2.workspace = true
-serde = { version = "1", features = ["derive"] }
+serde = { workspace = true, features = ["derive"] }
 

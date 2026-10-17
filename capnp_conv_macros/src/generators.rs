@@ -305,7 +305,7 @@ impl FieldInfo {
             quote! {} //noop
         } else {
             let capnp_field_name = self.get_capnp_name(ToSnakeCase::to_snake_case);
-            let field_name = quote!(val);
+            let field_name = self.deref_boxed(quote!(val));
             if self.is_optional {
                 let field_writer =
                     self.field_type
@@ -339,10 +339,18 @@ impl FieldInfo {
             }
         } else {
             self.field_type.generate_field_writer(
-                quote!(self.#rust_field_name),
+                self.deref_boxed(quote!(self.#rust_field_name)),
                 &capnp_field_name,
                 true,
             )
+        }
+    }
+
+    fn deref_boxed(&self, field: TokenStream2) -> TokenStream2 {
+        if self.box_kind.is_some() {
+            quote!((*#field))
+        } else {
+            field
         }
     }
 

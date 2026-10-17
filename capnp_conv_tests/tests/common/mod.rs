@@ -69,3 +69,13 @@ fn reserved_word() {
 
     assert_identical(&s);
 }
+
+#[test]
+fn generic_bound_to_text_and_list() {
+    let s = GenericStruct::<String, Vec<u32>> {
+        a_val: "hello".into(),
+        b_val: vec![1, 2, 3],
+    };
+
+    assert_identical(&s);
+}

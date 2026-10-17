@@ -9,7 +9,7 @@ members = ["capnp_conv",
 
 [workspace.package]
 authors = ["Richard Stephens <richard@richst.dev>", "Aik Kalantarian <aik.kalantarian@gmail.com>"]
-version = "0.5.0"
+version = "0.5.1-dev"
 edition = "2021"
 license = "MIT"
 repository = "https://github.com/richardstephens/capnp_conv2"

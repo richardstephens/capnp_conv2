@@ -3,11 +3,14 @@
 mod self_ref_capnp;
 mod self_ref_rust;
 
-use self_ref_rust::{BoxedField, Inner, RecursiveList};
 use std::sync::Arc;
 
-use crate::assert_identical;
-use crate::self_ref::self_ref_rust::{ArcLeafNode, ArcLeafNodeParent, LeafNode, LeafNodeParent};
+use self_ref_rust::{BoxedField, Inner, RecursiveList};
+
+use crate::{
+    assert_identical,
+    self_ref::self_ref_rust::{ArcLeafNode, ArcLeafNodeParent, LeafNode, LeafNodeParent},
+};
 
 #[test]
 pub fn keyword_rename_and_box_field() {

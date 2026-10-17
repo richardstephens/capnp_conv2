@@ -1,5 +1,6 @@
-use capnp_conv2::capnp_conv;
 use std::sync::Arc;
+
+use capnp_conv2::capnp_conv;
 
 #[allow(unused, clippy::all, clippy::pedantic)]
 use super::self_ref_capnp as capnp_types;

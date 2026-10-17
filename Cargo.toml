@@ -1,6 +1,11 @@
 [workspace]
 resolver = "2"
-members = ["capnp_conv", "capnp_conv_macros", "capnp_conv_tests", "example"]
+members = ["capnp_conv",
+    "capnp_conv_codegen_req",
+    "capnp_conv_macros",
+    "capnp_conv_tests",
+    "example"
+]
 
 [workspace.package]
 authors = ["Richard Stephens <richard@richst.dev>", "Aik Kalantarian <aik.kalantarian@gmail.com>"]

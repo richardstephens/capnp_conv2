@@ -8,7 +8,7 @@ use std::marker::PhantomData;
 use common_rust::{
     BasicStruct, ComprehensiveStruct, ComprehensiveStructEnum, ComprehensiveStructGroup,
     ComprehensiveStructUnion, ComprehensiveStructUnnamedUnion, ComprehensiveUnion, GenericStruct,
-    NestedStruct,
+    NestedStruct, ReservedWordStruct,
 };
 
 use crate::assert_identical;
@@ -59,4 +59,13 @@ pub fn check() {
     };
 
     assert_identical(&input);
+}
+
+#[test]
+fn reserved_word() {
+    let s = ReservedWordStruct {
+        type_: "Test".into(),
+    };
+
+    assert_identical(&s);
 }

@@ -2,7 +2,9 @@ use std::marker::PhantomData;
 
 use capnp_conv2::capnp_conv;
 
-use super::common_capnp::{self, basic_struct, comprehensive_struct, generic_struct};
+use super::common_capnp::{
+    self, basic_struct, comprehensive_struct, generic_struct, reserved_word_struct,
+};
 
 #[capnp_conv(comprehensive_struct)]
 #[derive(Debug, Clone, PartialEq)]
@@ -129,4 +131,11 @@ pub enum ComprehensiveUnion<T, Y> {
     #[capnp_conv(type = "union")]
     UnionVal(ComprehensiveUnionUnion<T, Y>),
     GenericVal(GenericStruct<BasicStruct, BasicStruct>),
+}
+
+#[capnp_conv(reserved_word_struct)]
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ReservedWordStruct {
+    #[capnp_conv(name = "type")]
+    pub type_: String,
 }

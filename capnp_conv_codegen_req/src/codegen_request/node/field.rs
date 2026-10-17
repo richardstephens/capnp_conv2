@@ -42,7 +42,7 @@ pub enum FieldKind {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SlotField {
     /// Offset, in units of the field's size, from the beginning of the section in which the field
-    /// resides. E.g. for a UInt32 field, multiply this by 4 to get the byte offset from the
+    /// resides. E.g. for a `UInt32` field, multiply this by 4 to get the byte offset from the
     /// beginning of the data section.
     pub offset: u32,
     #[capnp_conv(name = "type")]

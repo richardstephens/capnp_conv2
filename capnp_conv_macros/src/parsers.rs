@@ -185,7 +185,7 @@ impl FieldInfo {
                 )
             }
             _ => {}
-        };
+        }
 
         if let FieldWrapper::Option(ident) = field_wrapper {
             return error(ident.span(), "Enums may not have `Option<T>`");
@@ -565,7 +565,7 @@ fn get_variant_type(fields: &Fields) -> Result<(Option<&Type>, bool)> {
                             "second type of an enum can only be `PhantomData<T>`",
                         )
                     }
-                };
+                }
                 Ok((Some(&fields.unnamed.first().unwrap().ty), true))
             }
             _ => error(

@@ -64,7 +64,7 @@ pub struct TypeInterface {
 #[capnp_conv(schema_capnp::type_::any_pointer)]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum TypeAnyPointer {
-    /// A regular AnyPointer.
+    /// A regular `AnyPointer`.
     ///
     /// The name "unconstrained" means as opposed to constraining it to match a type parameter.
     /// In retrospect this name is probably a poor choice given that it may still be constrained
@@ -84,11 +84,11 @@ pub enum TypeAnyPointer {
 #[capnp_conv(schema_capnp::type_::any_pointer::unconstrained)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum TypeAnyPointerUnconstrained {
-    /// Truly AnyPointer.
+    /// Truly `AnyPointer`.
     AnyKind(()),
-    /// AnyStruct.
+    /// `AnyStruct`.
     Struct(()),
-    /// AnyList.
+    /// `AnyList`.
     List(()),
     /// Capability.
     Capability(()),

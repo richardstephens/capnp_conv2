@@ -66,11 +66,23 @@ impl StructInfo {
 impl EnumInfo {
     fn parse_enum(ident: &Ident, generics: &Generics, data: &DataEnum) -> Result<Self> {
         let ident = ident.clone();
-        let fields = data
+        let mut fields = data
             .variants
             .iter()
             .map(FieldInfo::parse_variant)
             .collect::<Result<Vec<FieldInfo>>>()?;
+
+        let is_union = fields
+            .iter()
+            .any(|f| !matches!(f.field_type, FieldType::EnumVariant));
+        if is_union {
+            for field in &mut fields {
+                if matches!(field.field_type, FieldType::EnumVariant) {
+                    field.field_type = FieldType::Void();
+                    field.is_unit_variant = true;
+                }
+            }
+        }
 
         let generics = generics
             .params
@@ -154,6 +166,7 @@ impl FieldInfo {
             field_type,
             capnp_name_override: attr_info.name_override,
             has_phantom_in_variant: false,
+            is_unit_variant: false,
             is_union_field,
             is_optional,
             box_kind,
@@ -225,6 +238,7 @@ impl FieldInfo {
             field_type,
             capnp_name_override: attr_info.name_override,
             has_phantom_in_variant: is_phantom,
+            is_unit_variant: false,
             is_union_field: false,
             is_optional: false,
             box_kind,

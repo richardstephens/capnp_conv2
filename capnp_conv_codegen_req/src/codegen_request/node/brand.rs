@@ -33,6 +33,20 @@ pub enum BrandScopeKind {
     /// The place where the Brand appears is within this scope or a sub-scope, and bindings
     /// for this scope are deferred to later Brand applications. This is equivalent to a
     /// pass-through binding list, where each of this scope's parameters is bound to itself.
+    /// For example:
+    ///
+    /// ```capnp
+    /// struct Outer(T) {
+    ///   struct Inner {
+    ///     value @0 :T;
+    ///   }
+    ///   innerInherit @0 :Inner;            # Outer Brand.Scope is `inherit`.
+    ///   innerBindSelf @1 :Outer(T).Inner;  # Outer Brand.Scope explicitly binds T to T.
+    /// }
+    /// ```
+    ///
+    /// The `innerInherit` and `innerBindSelf` fields have equivalent types, but different Brand
+    /// styles.
     Inherit(()),
 }
 

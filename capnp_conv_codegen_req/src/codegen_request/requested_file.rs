@@ -21,6 +21,7 @@ pub struct RequestedFileImport {
     pub id: u64,
     /// Name which *this* file used to refer to the foreign file. This may be a relative name.
     /// This information is provided because it might be useful for code generation, e.g. to
-    /// generate `#include` directives in C++.
+    /// generate `#include` directives in C++. We don't put this in `Node.file` because this
+    /// information is only meaningful at compile time anyway.
     pub name: String,
 }

@@ -29,7 +29,10 @@ pub struct Method {
     /// declaration (rather than a single struct parameter type) then a corresponding struct type
     /// is auto-generated. Such an auto-generated type will not be listed in the interface's
     /// `nested_nodes` and its `scope_id` will be zero -- it is completely detached from the
-    /// namespace.
+    /// namespace. (Awkwardly, it does of course inherit generic parameters from the method's
+    /// scope, which makes this a situation where you can't just climb the scope chain to find
+    /// where a particular generic parameter was introduced. Making the `scope_id` zero was a
+    /// mistake.)
     pub param_struct_type: u64,
     /// Brand of param struct type.
     pub param_brand: Brand,
